@@ -5,32 +5,32 @@
     "error": "/tmp/xray-error.log"
   },
   "dns": {
-    "servers":[
+    "servers": [
       {
         "address": "https://1.1.1.1/dns-query",
-        "domains": ["geosite:geolocation-!cn"],
+        "domains": [
+          "geosite:geolocation-!cn"
+        ],
         "queryStrategy": "UseIP"
       },
       "8.8.8.8",
       "localhost"
     ],
-    "queryStrategy": "UseIPv4",
-    "disableCache": false,
-    "disableFallback": false
+    "queryStrategy": "UseIPv4"
   },
-  "inbounds":[
+  "inbounds": [
     {
       "tag": "vless-in",
       "port": 443,
       "listen": "0.0.0.0",
       "protocol": "vless",
       "settings": {
-        "clients":[
+        "clients": [
           {
-            "id": "0e7c388b-db23-4cc5-bf47-342579ffa13b",
+            "id": "f42fad22-8905-403e-a709-e6f246e31668",
             "flow": "",
             "level": 0,
-            "email": "user@sharp-hub-d63923"
+            "email": "user@quiet-gate-f00b7f"
           }
         ],
         "decryption": "none"
@@ -43,60 +43,72 @@
           "path": "/",
           "maxUploadSize": 1000000,
           "maxConcurrentUploads": 10
-        },
-        "sockopt": {
-          "tcpFastOpen": true,
-          "tcpNoDelay": true
         }
       },
       "sniffing": {
         "enabled": true,
-        "destOverride": ["http", "tls", "quic"],
-        "routeOnly": true
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ],
+        "routeOnly": false
       }
     }
   ],
-  "outbounds":[
+  "outbounds": [
     {
       "tag": "direct",
       "protocol": "freedom",
       "settings": {
         "domainStrategy": "UseIPv4"
-      },
-      "streamSettings": {
-        "sockopt": {
-          "tcpFastOpen": true,
-          "tcpNoDelay": true
-        }
       }
     },
     {
       "tag": "block",
       "protocol": "blackhole",
-      "settings": { "response": { "type": "http" } }
+      "settings": {
+        "response": {
+          "type": "http"
+        }
+      }
     }
   ],
   "routing": {
     "domainStrategy": "IPIfNonMatch",
-    "rules":[
-      { "type": "field", "ip": ["geoip:private"], "outboundTag": "block" },
-      { "type": "field", "protocol": ["bittorrent"], "outboundTag": "block" },
-      { "type": "field", "domain":["geosite:category-ads-all"], "outboundTag": "block" }
+    "rules": [
+      {
+        "type": "field",
+        "ip": [
+          "geoip:private"
+        ],
+        "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "protocol": [
+          "bittorrent"
+        ],
+        "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "geosite:category-ads-all"
+        ],
+        "outboundTag": "block"
+      }
     ]
   },
   "policy": {
     "levels": {
       "0": {
-        "handshake": 2,
-        "connIdle": 120,
+        "handshake": 4,
+        "connIdle": 300,
         "uplinkOnly": 2,
         "downlinkOnly": 5,
-        "bufferSize": 2048
+        "bufferSize": 512
       }
-    },
-    "system": {
-      "statsOutboundUplink": false,
-      "statsOutboundDownlink": false
     }
   }
 }
