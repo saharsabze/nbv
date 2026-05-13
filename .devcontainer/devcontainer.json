@@ -1,5 +1,5 @@
 {
-  "name": "sharp-hub-d63923",
+  "name": "quiet-gate-f00b7f",
   "build": {
     "dockerfile": "Dockerfile",
     "context": "."
@@ -15,7 +15,7 @@
   "postAttachCommand": "gh codespace ports visibility 443:public -c $CODESPACE_NAME && bash /usr/local/bin/start.sh",
   "portsAttributes": {
     "443": {
-      "label": "sharp-hub-d63923",
+      "label": "quiet-gate-f00b7f",
       "protocol": "http",
       "onAutoForward": "silent"
     }
